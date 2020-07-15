@@ -32,7 +32,7 @@ def get_neighbors(start_word):
     return neighbors
 
 
-def word_latters(start_word, end_word):
+def word_letters(start_word, end_word):
     q = Queue()
 
     visited = set()
