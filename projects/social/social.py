@@ -1,4 +1,5 @@
 import random
+from util import Queue
 
 
 class User:
@@ -54,15 +55,10 @@ class SocialGraph:
         # !!!! IMPLEMENT ME
 
         # Add users
-        # use num_users
         for user in range(num_users):
             self.add_user(user)
 
         # Create friendships
-        # make a list with all possible friendships
-        # example:
-        # 5 users
-        # [(1, 2), (1, 3), (1, 4), (1, 5), (2, 3), (2, 4), (2, 5), (3, 4), (3, 5), (4, 5)]
         friendships = []
 
         for user in range(1, self.last_id + 1):
@@ -73,13 +69,10 @@ class SocialGraph:
         # shuffle that- shuffles in place
         self.fisher_yates_shuffle(friendships)
         # take as many as we need
-
         total_friendships = num_users * avg_friendships
-
         random_friendships = friendships[:total_friendships//2]
 
         # add to self.friendships
-
         for friendship in random_friendships:
             self.add_friendship(friendship[0], friendship[1])
 
@@ -91,9 +84,46 @@ class SocialGraph:
         extended network with the shortest friendship path between them.
 
         The key is the friend's ID and the value is the path.
+
+        Nodes are people. 
+        Edges are relationships.
+        Must trace the shortest path.
+        Sounds like a BFS to me. Use a Queue class here. 
+
+        key is the friend node, value is all the nodes between them and friend.
+        Does the path include the friend node? No- directions say "between"
+        Tracing the entire existing network, 
+            first gen node is visited, added as key with empty path
+            second gen node is visited, added as key with path to it as value
+            third gen node is visited, added as key with path to it as value
+            etc.
+        Every node gets visited, every node gets placed as a key.
         """
         visited = {}  # Note that this is a dictionary, not a set
+        # node1 : []
+        # node2 : [node1]
+        # node3 : [node1, node2]
         # !!!! IMPLEMENT ME
+        q = Queue()
+        q.enqueue([user_id])
+
+        while q.size() > 0:
+            path = q.dequeue()
+            current_node = path[-1]
+
+            if current_node not in visited:
+                visited[current_node] = path
+
+                friendships = self.friendships[current_node]
+                # need friendships of the user id. need get neighbors
+                print(friendships, "friendships")
+
+                # iterate over friendships
+                for friend in friendships:
+                    new_path = list(path)
+                    new_path.append(friend)
+                    q.enqueue(new_path)
+
         return visited
 
 
@@ -102,4 +132,4 @@ if __name__ == '__main__':
     sg.populate_graph(10, 2)
     print(sg.friendships)
     connections = sg.get_all_social_paths(1)
-    print(connections)
+    print(connections, 'answer')
