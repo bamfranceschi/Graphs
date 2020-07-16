@@ -116,7 +116,7 @@ class SocialGraph:
 
                 friendships = self.friendships[current_node]
                 # need friendships of the user id. need get neighbors
-                print(friendships, "friendships")
+                # print(friendships, "friendships")
 
                 # iterate over friendships
                 for friend in friendships:
@@ -129,7 +129,23 @@ class SocialGraph:
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populate_graph(10, 2)
-    print(sg.friendships)
+    sg.populate_graph(1000, 5)
+    # print(sg.friendships)
     connections = sg.get_all_social_paths(1)
-    print(connections, 'answer')
+    # print(connections, 'answer')
+
+    # what percentage of total users are in our extended social network?
+
+    # how many people we know, divided by how many people there are
+
+    print(f'{(len(connections) - 1) / 1000 * 100}%')
+
+    # what is the average degree of separation between a user and those in his/her extended network?
+    # need the average length of a path to each user
+    # traverse a user's extended connections, gatehr lengths, sum,
+    # divide by number of friends in connected components aka social connections
+    total_lengths = 0
+    for friend in connections:
+        total_lengths += len(connections[friend])
+
+    print(f' Average degree of separation: {total_lengths / len(connections)}')
