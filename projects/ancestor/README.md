@@ -2,7 +2,6 @@
 
 This is a take-home coding challenge from a top tech company. The spec is providied verbatim.
 
-
 ## Problem
 
 Suppose we have some input data describing a graph of relationships between parents and children over multiple generations. The data is formatted as a list of (parent, child) pairs, where each individual is assigned a unique integer identifier.
@@ -40,9 +39,21 @@ Example output
 ```
 
 Clarifications:
-* The input will not be empty.
-* There are no cycles in the input.
-* There are no "repeated" ancestors – if two individuals are connected, it is by exactly one path.
-* IDs will always be positive integers.
-* A parent may have any number of children.
 
+- The input will not be empty.
+- There are no cycles in the input.
+- There are no "repeated" ancestors – if two individuals are connected, it is by exactly one path.
+- IDs will always be positive integers.
+- A parent may have any number of children.
+
+Thoughts:
+
+I think we want depth first.
+We start with an input child, and must trace back via parents to find the farthest ancestor
+Is this reversed?
+It's recursive!! takes in a dataset and an ID
+Need to know when a child doesn't have a parent- that's our base case. That's the root ancestor
+
+Let's think through how to make a helper function that finds our parents.
+
+Use a stack if I don't do recursion
