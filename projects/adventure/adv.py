@@ -45,20 +45,20 @@ while len(visited) < len(room_graph) - 1:
         visited[player.current_room.id] = player.current_room.get_exits()
         # prev-direction: best_path[-1]
         prev_dir = best_path[-1]
-        # remove prev-direction from visited[current_room.id]
+        # remove prev-direction from visited[current_room.id] so room is not visited again
         visited[player.current_room.id].remove(prev_dir)
 
-    # while len(visited[player_current_room.id]) == 0:
+    # while len(visited[player_current_room.id]) == 0, aka dead end:
     while len(visited[player.current_room.id]) == 0:
         #prev_direction = best_path.pop()
         prev_dir = best_path.pop()
-        # add prev_direction to traversal_path
+        # add prev_direction to traversal_path, beep, beep beep! reversing
         traversal_path.append(prev_dir)
         # player.travel(prev_direction)
         player.travel(prev_dir)
 
     #next_move = visited[current_room.id].pop(0)
-    next_move = visited[player.current_room.id].pop(0)
+    next_move = visited[player.current_room.id].pop()
     # traversal_path.append(next_move)
     traversal_path.append(next_move)
     # best_path.append(reverse[next_move])
